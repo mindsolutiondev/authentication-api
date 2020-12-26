@@ -14,9 +14,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.14'
-    - name: Install yarn
+    - name: Install yarn and run unittest
       run: |
         yarn
+        yarn test
       env:
         CI: true
     - name: Publish to Github Packages Registry
@@ -44,7 +45,6 @@ jobs:
         envs: GITHUB_USERNAME, GITHUB_TOKEN
         script: |
           docker stop $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
-          docker rm $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
           docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           docker pull docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
-          docker run -dit -p 6000:6000 --name product-key-generator-api -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
+          docker run -dit -p 6000:6000 -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
