@@ -35,8 +35,8 @@ mongooseClient(config.all.mongo.uri, config.all.mongo.options).then(
 /* Register Route */
 register(app, path.resolve(__dirname, "controllers"), ".controller.js");
 
-const server = app.listen(5555, () => {
-  console.log("Server listening on port 5555");
+const server = app.listen(6000, () => {
+  console.log("Server listening on port 6000");
 });
 
 gracefulShutdown(server);

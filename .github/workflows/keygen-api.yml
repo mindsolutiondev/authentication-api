@@ -47,4 +47,4 @@ jobs:
           docker rm $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
           docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           docker pull docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
-          docker run -dit -p 6666:6666 --name product-key-generator-api -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
+          docker run -dit -p 6000:6000 --name product-key-generator-api -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
