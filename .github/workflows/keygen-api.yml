@@ -14,10 +14,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.14'
-    - name: Install yarn and run unittest
+    - name: Install yarn
       run: |
         yarn
-        yarn test
       env:
         CI: true
     - name: Publish to Github Packages Registry
