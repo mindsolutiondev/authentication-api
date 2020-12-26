@@ -43,8 +43,8 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: GITHUB_USERNAME, GITHUB_TOKEN
         script: |
-          # docker stop $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
-          # docker rm $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
+          docker stop $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
+          docker rm $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
           docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           docker pull docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
-          docker run -dit -p 5555:5555  -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
+          docker run -dit -p 6666:6666 --name product-key-generator-api -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
