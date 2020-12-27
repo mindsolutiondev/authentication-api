@@ -23,14 +23,14 @@ app.use(
   })
 );
 
-mongooseClient(config.all.mongo.uri, config.all.mongo.options).then(
-  (dbClient) => {
-    logger.info(
-      { event: "execute" },
-      `Connected to ${dbClient.host}:${dbClient.port}/${dbClient.name}`
-    )
-  }
-);
+// mongooseClient(config.all.mongo.uri, config.all.mongo.options).then(
+//   (dbClient) => {
+//     logger.info(
+//       { event: "execute" },
+//       `Connected to ${dbClient.host}:${dbClient.port}/${dbClient.name}`
+//     )
+//   }
+// );
 
 /* Register Route */
 register(app, path.resolve(__dirname, "controllers"), ".controller.js");
