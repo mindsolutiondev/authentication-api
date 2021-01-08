@@ -1,1 +1,2 @@
-# product-key-generator-api
+# authentication-api
+
