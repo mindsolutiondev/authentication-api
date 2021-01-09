@@ -5,7 +5,7 @@ const config = {
   all: {
     env: process.env.NODE_ENV || 'development',
     root: path.join(__dirname, '..'),
-    port: process.env.PORT || 9000,
+    port: process.env.PORT || 5001,
     redis: {
       port: process.env.REDIS_PORT || '6379',
       url: process.env.REDIS_URL || 'topspin.space',

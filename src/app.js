@@ -38,8 +38,8 @@ app.use(
 /* Register Route */
 register(app, path.resolve(__dirname, "controllers"), ".controller.js");
 
-const server = app.listen(8000, () => {
-  console.log("Server listening on port 8000");
+const server = app.listen(5001, () => {
+  console.log("Server listening on port 5001");
 });
 
 gracefulShutdown(server);
