@@ -24,7 +24,7 @@ const users = {
   john: 'appleseed',
 }
 
-@web.basePath('/api/v2/oauth')
+@web.basePath('/oauth/api/v2/oauth')
 class OauthController {
   @web.post('/authorization')
   async Authorization(request, response) {
