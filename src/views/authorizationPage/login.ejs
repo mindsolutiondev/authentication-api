@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login Page</title>
+	</head>
+	<body>
+		<p>
+			access the following data about you? <%- client.name %>
+		</p>
+		<p><%= scope %></p>
+		<form action="/api/v2/oauth/authorization" method="post">
+			<label for="userName">Username: </label>
+			<input type="text" name="userName" /><br />
+			<label for="password">Password: </label>
+			<input type="text" name="password" /><br />
+			<input type="hidden" name="requestId" value="<%- requestId %>" />
+			<input type="submit" value="Approve" />
+		</form>
+	</body>
+</html>
