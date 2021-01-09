@@ -25,7 +25,7 @@ jobs:
         GITHUB_USERNAME: mindsolutiondev
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: mindsolutiondev/product-key-generator-api/product-key-generator-api
+        name: mindsolutiondev/authentication-api/authentication-api
         registry: docker.pkg.github.com
         username: mindsolutiondev
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: GITHUB_USERNAME, GITHUB_TOKEN
         script: |
-          docker stop $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest")
+          docker stop $(docker ps -aqf "ancestor=docker.pkg.github.com/mindsolutiondev/authentication-api/authentication-api:latest")
           docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
-          docker pull docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
-          docker run -dit -p 6000:6000 -d docker.pkg.github.com/mindsolutiondev/product-key-generator-api/product-key-generator-api:latest
+          docker pull docker.pkg.github.com/mindsolutiondev/authentication-api/authentication-api:latest
+          docker run -dit -p 6000:6000 -d docker.pkg.github.com/mindsolutiondev/authentication-api/authentication-api:latest
