@@ -4,8 +4,9 @@ import * as web from 'express-decorators'
 class HealthCheckController {
   @web.get('/')
   async healthCheck(request, response) {
+    console.log('hhhhh')
     response.send({
-      status: 200,
+      status: 2002,
     })
   }
 }

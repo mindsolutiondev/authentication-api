@@ -3,12 +3,13 @@ import url from 'url'
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
-import { randomString, decodeAuthCredentials } from '../../util/utils'
+import { randomString, decodeAuthCredentials, comparePassword } from '../../util/utils'
 import redisClient from '../../util/redis/redis'
+import { getUser } from '../../repository/user.repository'
 
 const clientsServer = {
-  'my-client': {
-    name: 'Sample Client',
+  'TMS': {
+    name: 'TMS',
     clientSecret: 'zETqHgl0d7ThysUqPnaFuLOmG1E=',
     scopes: ['permission:name', 'permission:date_of_birth'],
   },
@@ -17,11 +18,6 @@ const clientsServer = {
     clientSecret: 'TestSecret',
     scopes: ['permission:name'],
   },
-}
-
-const users = {
-  user1: 'password1',
-  john: 'appleseed',
 }
 
 @web.basePath('/api/v2/oauth')
@@ -33,8 +29,16 @@ class OauthController {
     const userDataObj = JSON.parse(userData)
     const { redirect_uri, state, client_id } = userDataObj
 
-    if (!userName || users[userName] !== password) {
-      response.status(401).send('Error: user not authorized')
+    
+    const data = await getUser(userName) 
+    if (data === null) {
+      response.status(401).send({ error: 'ขออภัย User หรือ Password ของท่านไม่เจอในระบบ' })
+      return
+    }
+
+    const resultCompare = await comparePassword(password, data.password)
+    if (!userName || !resultCompare) {
+      response.status(401).send({ error: 'User หรือ Password ของคุณมีปัญหา กรุณาลองใหม่อีกครั้ง' })
       return
     }
 
@@ -57,7 +61,8 @@ class OauthController {
       code,
       state,
     }
-    response.redirect(url.format(redirectUri))
+
+    response.status(200).send({ url: url.format(redirectUri) })
   }
   @web.post('/token')
   async generateToken(request, response) {
@@ -87,7 +92,7 @@ class OauthController {
         userName: clientObj.userName,
         scope: clientObj.userDataObj.scope,
       },
-      fs.readFileSync(path.join(__dirname, '..','..','config', 'keys', 'private_key.pem')),
+      fs.readFileSync(path.join(__dirname, '..', '..', 'config', 'keys', 'private_key.pem')),
       {
         algorithm: 'RS256',
         expiresIn: 300,

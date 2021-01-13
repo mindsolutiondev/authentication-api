@@ -1,7 +1,8 @@
 import bunyan from 'bunyan'
+import config from '../../config'
 
 const options = {
-  name: 'emergency-mobileapp-api',
+  name: config.all.app,
   streams: [
     {
       type: 'stream',

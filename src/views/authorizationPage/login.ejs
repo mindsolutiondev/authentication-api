@@ -1,22 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Login Page</title>
-	</head>
-	<body>
-		<p>
-			access the following data about you? <%- client.name %>
-		</p>
-		<p><%= scope %></p>
-		<form action="/api/v2/oauth/authorization" method="post">
-			<label for="userName">Username: </label>
-			<input type="text" name="userName" /><br />
-			<label for="password">Password: </label>
-			<input type="text" name="password" /><br />
-			<input type="hidden" name="requestId" value="<%- requestId %>" />
-			<input type="submit" value="Approve" />
-		</form>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+
+      .font-inter {
+        font-family: 'Inter', sans-serif;
+      }
+
+      .font-kanit {
+        font-family: 'Kanit', sans-serif;
+      }
+
+      .text-header {
+        font-size: 1.3em;
+        line-height: 2rem;
+      }
+
+      .alert {
+        background-color: #f7d8d3;
+        border: 1px solid #ffccc7;
+        padding: 8px 15px;
+        margin-bottom: 15px;
+        width: 24rem;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="absolute flex items-center justify-center inset-0 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 flex-col"
+    >
+      <p class="font-inter text-header my-4 font-kanit">
+        เข้าสู่ระบบด้วย Mind Solution <b>Authorization</b>
+      </p>
+      <div class="font-kanit alert">
+        Mind Solution Account จะแชร์ชื่อ ที่อยู่อีเมล์ของคุณ และรายละเอียดอื่นๆ กับ <%- client.applicationName %> เพื่อดำเนินการต่อกับระบบปลายทาง
+        คุณสามารถ อ่านรายละเอียดและข้อตกลงได้ที่เว็บไซต์ <%- client.applicationName %>
+      </div>
+      <!-- <form action="/api/v2/oauth/authorization" method="post" class="w-96"> -->
+      <div class="w-96">
+        <div class="mb-4">
+          <label class="font-inter block text-grey-darker text-sm font-bold mb-2" for="userName"
+            >Username:
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="userName"
+            class="font-intershadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+          /><br />
+        </div>
+        <div class="mb-6">
+          <label class="font-inter block text-grey-darker text-sm font-bold mb-2" for="password">
+            Password:
+          </label>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            class="font-intershadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+          /><br />
+        </div>
+        <input type="hidden" name="requestId" value="<%- requestId %>" />
+        <div id="error" class="font-kanit alert flex justify-between rounded-md hidden">
+          <p id="errorText"></p>
+          <div id="close">x</div>
+        </div>
+        <center>
+          <button class="border-solid bg-yellow-400 p-3 font-inter">Authorized</button>
+        </center>
+      </div>
+      <!-- </form> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      $('button').click(function () {
+        var username = $('#username').val()
+        var password = $('#password').val()
+        var requestId = $('input[name="requestId"]').val()
+
+        axios
+          .post('/api/v2/oauth/authorization', {
+            userName: username,
+            password,
+            requestId,
+          })
+          .then(function (response) {
+            window.location = response.data.url
+          })
+          .catch(function (errors) {
+            const { error } = errors.response.data
+            console.log(error)
+            $('#error').removeClass('hidden');
+            $('#errorText').text(error);
+
+          })
+      })
+
+      $('#close').click(function () {
+        $('#error').addClass('hidden')
+      })
+    </script>
+  </body>
 </html>

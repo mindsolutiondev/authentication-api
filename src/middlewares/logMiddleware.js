@@ -10,5 +10,6 @@ const logging = morgan(function (tokens, req, res) {
   ].join(' ')
 })
 
+console.log(logging)
 
 module.exports = logging
